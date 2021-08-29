@@ -1,5 +1,5 @@
 import { ICertificate } from "@aws-cdk/aws-certificatemanager";
-import { BehaviorOptions, DistributionProps } from "@aws-cdk/aws-cloudfront";
+import { BehaviorOptions, CachePolicyProps, DistributionProps } from "@aws-cdk/aws-cloudfront";
 import { Runtime } from "@aws-cdk/aws-lambda";
 import { IHostedZone } from "@aws-cdk/aws-route53";
 import { BucketProps } from "@aws-cdk/aws-s3";
@@ -58,6 +58,14 @@ export interface Props extends StackProps {
     imageCache?: string;
     lambdaCache?: string;
   };
+  /**
+   * Overwrite Cache Policy
+   */
+  cachePolicies?: {
+    staticsCache?: Partial<CachePolicyProps>;
+    imageCache?: Partial<CachePolicyProps>;
+    lambdaCache?: Partial<CachePolicyProps>;
+  }
   /**
    * Enable logging on the cloudfront distribution
    */
