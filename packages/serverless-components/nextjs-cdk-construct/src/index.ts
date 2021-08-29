@@ -234,7 +234,7 @@ export class NextJSLambdaEdge extends cdk.Construct {
       {
         cachePolicyName: props.cachePolicyName?.staticsCache,
         queryStringBehavior: cloudfront.CacheQueryStringBehavior.none(),
-        headerBehavior: cloudfront.CacheHeaderBehavior.none(),
+        headerBehavior: props.whiteListedHeaders ? cloudfront.CacheHeaderBehavior.allowList(...props.whiteListedHeaders): cloudfront.CacheHeaderBehavior.none(),
         cookieBehavior: cloudfront.CacheCookieBehavior.none(),
         defaultTtl: Duration.days(30),
         maxTtl: Duration.days(30),
@@ -250,7 +250,7 @@ export class NextJSLambdaEdge extends cdk.Construct {
       {
         cachePolicyName: props.cachePolicyName?.imageCache,
         queryStringBehavior: cloudfront.CacheQueryStringBehavior.all(),
-        headerBehavior: cloudfront.CacheHeaderBehavior.allowList("Accept"),
+        headerBehavior: props.whiteListedHeaders ? cloudfront.CacheHeaderBehavior.allowList("Accept", ...props.whiteListedHeaders): cloudfront.CacheHeaderBehavior.allowList("Accept"),
         cookieBehavior: cloudfront.CacheCookieBehavior.none(),
         defaultTtl: Duration.days(1),
         maxTtl: Duration.days(365),
@@ -266,7 +266,7 @@ export class NextJSLambdaEdge extends cdk.Construct {
       {
         cachePolicyName: props.cachePolicyName?.lambdaCache,
         queryStringBehavior: cloudfront.CacheQueryStringBehavior.all(),
-        headerBehavior: cloudfront.CacheHeaderBehavior.none(),
+        headerBehavior: props.whiteListedHeaders ? cloudfront.CacheHeaderBehavior.allowList(...props.whiteListedHeaders): cloudfront.CacheHeaderBehavior.none(),
         cookieBehavior: {
           behavior: props.whiteListedCookies?.length ? "whitelist" : "all",
           cookies: props.whiteListedCookies

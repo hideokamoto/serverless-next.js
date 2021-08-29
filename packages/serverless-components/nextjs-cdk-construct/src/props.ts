@@ -63,6 +63,13 @@ export interface Props extends StackProps {
    */
   withLogging?: boolean;
   /**
+   * Provide a list of headers to forward to the CloudFront origin.
+   *
+   *
+   * .e.g ['Authorization', 'Origin']
+   */
+  whiteListedHeaders?: string[]
+  /**
    * Provide a list of cookies to forward to the CloudFront origin.
    *
    * This is useful if your SSR page is different based on the user requesting
