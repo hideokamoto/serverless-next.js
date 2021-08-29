@@ -231,7 +231,7 @@ export class NextJSLambdaEdge extends cdk.Construct {
     this.nextStaticsCachePolicy = new cloudfront.CachePolicy(
       this,
       "NextStaticsCache",
-      {
+      Object.assign({
         cachePolicyName: props.cachePolicyName?.staticsCache,
         queryStringBehavior: cloudfront.CacheQueryStringBehavior.none(),
         headerBehavior: cloudfront.CacheHeaderBehavior.none(),
@@ -241,13 +241,13 @@ export class NextJSLambdaEdge extends cdk.Construct {
         minTtl: Duration.days(30),
         enableAcceptEncodingBrotli: true,
         enableAcceptEncodingGzip: true
-      }
+      }, props.cachePolicies?.staticsCache)
     );
 
     this.nextImageCachePolicy = new cloudfront.CachePolicy(
       this,
       "NextImageCache",
-      {
+      Object.assign({
         cachePolicyName: props.cachePolicyName?.imageCache,
         queryStringBehavior: cloudfront.CacheQueryStringBehavior.all(),
         headerBehavior: cloudfront.CacheHeaderBehavior.allowList("Accept"),
@@ -257,13 +257,13 @@ export class NextJSLambdaEdge extends cdk.Construct {
         minTtl: Duration.days(0),
         enableAcceptEncodingBrotli: true,
         enableAcceptEncodingGzip: true
-      }
+      }, props.cachePolicies?.imageCache)
     );
 
     this.nextLambdaCachePolicy = new cloudfront.CachePolicy(
       this,
       "NextLambdaCache",
-      {
+      Object.assign({
         cachePolicyName: props.cachePolicyName?.lambdaCache,
         queryStringBehavior: cloudfront.CacheQueryStringBehavior.all(),
         headerBehavior: cloudfront.CacheHeaderBehavior.none(),
@@ -276,7 +276,7 @@ export class NextJSLambdaEdge extends cdk.Construct {
         minTtl: Duration.seconds(0),
         enableAcceptEncodingBrotli: true,
         enableAcceptEncodingGzip: true
-      }
+      }, props.cachePolicies?.lambdaCache)
     );
 
     const edgeLambdas: cloudfront.EdgeLambda[] = [
